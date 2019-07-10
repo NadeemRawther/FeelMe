@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 Button login;
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -51,11 +51,34 @@ EditText usaername,passwrd;
 
     }
 
-    public void logMethod(String usar ,String psd){
+    public void logMethod(final String usar , final String psd){
+
+
+
 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        
+           if (dataSnapshot.hasChild(usar)){
+               for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                   if(dataSnapshot1.child("password").getValue().toString().equals(psd)){
+                       Intent intent = new Intent(MainActivity.this,UserPage.class);
+
+
+
+                   }
+
+
+
+
+               }
+
+
+
+
+               }
+
+
+
     }
 
     @Override
