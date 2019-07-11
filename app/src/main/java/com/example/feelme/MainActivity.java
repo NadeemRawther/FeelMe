@@ -1,6 +1,8 @@
 package com.example.feelme;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,11 +19,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity  {
 Button login;
+SharedPreferences sharedPreferences;
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("users/user");
 EditText usaername,passwrd;
-
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,24 +64,15 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
            if (dataSnapshot.hasChild(usar)){
                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                    if(dataSnapshot1.child("password").getValue().toString().equals(psd)){
+                       sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
+                       editor = sharedPreferences.edit();
+                       editor.putString("userid",usar);
+
                        Intent intent = new Intent(MainActivity.this,UserPage.class);
-
-
-
+                       startActivity(intent);
                    }
-
-
-
-
                }
-
-
-
-
                }
-
-
-
     }
 
     @Override
