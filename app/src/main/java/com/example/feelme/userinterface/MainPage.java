@@ -5,16 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.feelme.R;
@@ -52,8 +47,8 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 
-            Glide.with(getActivity()).load(dataSnapshot1.child("mother").getValue().toString()).into(mother);
         Glide.with( getActivity() ).load( dataSnapshot1.child("father").getValue().toString()).into(father);
+        Glide.with( getActivity() ).load(dataSnapshot1.child("mother").getValue().toString()).into(mother);
         Glide.with( getActivity() ).load( dataSnapshot1.child("uncle").getValue().toString()).into(uncle);
         Glide.with( getActivity() ).load( dataSnapshot1.child("aunt").getValue().toString()).into(aunty);
         Glide.with( getActivity() ).load( dataSnapshot1.child("grandfather").getValue().toString()).into(grandpa);

@@ -45,14 +45,6 @@ public class UserPage extends AppCompatActivity  implements ActionBar.TabListene
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
     }
-
-
-
-
-
-
-
-
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -84,8 +76,4 @@ public class UserPage extends AppCompatActivity  implements ActionBar.TabListene
             return null;
         }
     }
-
-
-
-
 }
