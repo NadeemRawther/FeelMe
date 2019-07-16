@@ -16,6 +16,7 @@ public class UserPage extends AppCompatActivity  implements ActionBar.TabListene
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
   MainPage mainPage;
+
     VideoFrag videoFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class UserPage extends AppCompatActivity  implements ActionBar.TabListene
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return  videoFrag;
+                    return videoFrag;
                 case 1:
                     return mainPage;
 
