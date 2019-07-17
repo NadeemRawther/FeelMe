@@ -17,7 +17,7 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VideoFrag extends Fragment  {
+public class VideoFrag extends YouTubePlayerFragment implements YouTubePlayer.OnInitializedListener  {
     public static final String DEVELOPER_KEY =  "AIzaSyDXzWPBNo05rtn7442jgMmklYgJxYckpq0";
     public static final String YOUTUBE_VIDEO_CODE = "_oEA18Y8gM0";
     private YouTubePlayerView youTubeView;
@@ -28,9 +28,18 @@ public class VideoFrag extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_video, container, false);
-
+        View v = inflater.inflate(R.layout.fragment_video, container, false);
+        return v;
     }
 
 
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+    }
 }
