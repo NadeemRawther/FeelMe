@@ -9,21 +9,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.example.feelme.userinterface.MainPage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+
 public class MainActivity extends AppCompatActivity  {
-Button login;
-SharedPreferences sharedPreferences;
+
+    Button login;
+    SharedPreferences sharedPreferences;
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("users/user");
-EditText usaername,passwrd;
+    EditText usaername,passwrd;
     SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

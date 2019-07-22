@@ -1,5 +1,4 @@
 package com.example.feelme.userinterface;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.example.feelme.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +21,6 @@ public class MainPage extends Fragment  {
     SharedPreferences sharedPreferences;
     ImageView mother,father,sister,brother,uncle,aunty,grandpa,grandma;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,9 +41,7 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         String moth, fath, sist, grandfa, grandmo, unc, aun;
-
         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
         Glide.with( getActivity() ).load( dataSnapshot1.child("father").getValue().toString()).into(father);
         Glide.with( getActivity() ).load(dataSnapshot1.child("mother").getValue().toString()).into(mother);
         Glide.with( getActivity() ).load( dataSnapshot1.child("uncle").getValue().toString()).into(uncle);
@@ -55,8 +50,6 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
         Glide.with( getActivity() ).load( dataSnapshot1.child("grandmother").getValue().toString()).into(grandma);
         Glide.with( getActivity() ).load( dataSnapshot1.child("brother").getValue().toString()).into(brother);
         Glide.with( getActivity() ).load( dataSnapshot1.child("sister").getValue().toString()).into(sister);
-
-
         }
     }
     @Override

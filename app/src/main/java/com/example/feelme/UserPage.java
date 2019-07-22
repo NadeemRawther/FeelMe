@@ -2,6 +2,7 @@ package com.example.feelme;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -20,12 +21,13 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 public class UserPage extends AppCompatActivity implements ActionBar.TabListener {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    VideoFrag videoFrag;
     public static final String DEVELOPER_KEY =  "AIzaSyDXzWPBNo05rtn7442jgMmklYgJxYckpq0";
     public static final String YOUTUBE_VIDEO_CODE = "_oEA18Y8gM0";
   MainPage mainPage;
-    private YouTubePlayerSupportFragment youTubePlayerFragment;
+
     private YouTubePlayer youTubePlayer;
-    VideoFrag videoFrag;
+    YouTubePlayerSupportFragment youTubePlayerFragment;
     private static final String TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class UserPage extends AppCompatActivity implements ActionBar.TabListener
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return  initializeYoutubePlayer();
+                    return videoFrag;
                 case 1:
                     return mainPage;
 
@@ -86,37 +88,5 @@ public class UserPage extends AppCompatActivity implements ActionBar.TabListener
             return null;
         }
     }
-    private Fragment initializeYoutubePlayer() {
 
-        youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.youtube_player_fragment);
-
-        if (youTubePlayerFragment == null)
-            return null;
-
-        youTubePlayerFragment.initialize(DEVELOPER_KEY, new YouTubePlayer.OnInitializedListener() {
-
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
-                                                boolean wasRestored) {
-                if (!wasRestored) {
-                    youTubePlayer = player;
-
-                    //set the player style default
-                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-
-                    //cue the 1st video by default
-                    youTubePlayer.cueVideo(YOUTUBE_VIDEO_CODE);
-                }
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider arg0, YouTubeInitializationResult arg1) {
-
-                //print or show error if initialization failed
-                Log.e(TAG, "Youtube Player View initialization failed");
-            }
-        });
-        return null;
-    }
 }
