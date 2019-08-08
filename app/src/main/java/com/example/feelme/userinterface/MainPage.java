@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.feelme.R;
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainPage extends Fragment  {
     SharedPreferences sharedPreferences;
@@ -61,53 +65,53 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
         mother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,80);
             }
         });
 
         father.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,45);
             }
         });
 
         sister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,78);
             }
         });
         brother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,87);
             }
         });
 
         uncle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,45);
             }
         });
         aunty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,79);
             }
         });
 
         grandpa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,46);
             }
         });
         grandma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v);
+                createEmoji(v,79);
             }
         });
         return view ;
@@ -115,11 +119,28 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
 
-  public void createEmoji(View v){
+  public void createEmoji(View v,int phoneNo){
       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
       View mView = View.inflate(getActivity(),R.layout.emoji_layout,null);
       builder.setView(mView);
       final AlertDialog alertDialog = builder.create();
       alertDialog.show();
+      String msg="";
+      ImageView angry,pain,happy,confused,sad,sick;
+
+
+          try {
+              SmsManager smsManager = SmsManager.getDefault();
+              ArrayList<String> messageParts = smsManager.divideMessage(msg);
+              smsManager.sendMultipartTextMessage(String.valueOf(phoneNo), null, messageParts, null, null);
+              Toast.makeText(getContext(), "Message Sent",
+                      Toast.LENGTH_LONG).show();
+          } catch (Exception ex) {
+              Toast.makeText(getContext(),ex.getMessage().toString(),
+                      Toast.LENGTH_LONG).show();
+              ex.printStackTrace();
+          }
+
+
   }
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,10 +33,6 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         usaername = (EditText)findViewById(R.id.username);
         passwrd = (EditText)findViewById(R.id.passwrd);
-
-
-
-
          login = (Button)findViewById(R.id.login);
          login.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -68,7 +65,6 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                        sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
                        editor = sharedPreferences.edit();
                        editor.putString("userid",usar);
-
                        Intent intent = new Intent(MainActivity.this,UserPage.class);
                        startActivity(intent);
                    }
@@ -85,8 +81,6 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
     }
-
-
 
 
 
