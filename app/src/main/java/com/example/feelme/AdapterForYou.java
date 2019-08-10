@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -37,14 +40,34 @@ public class AdapterForYou extends RecyclerView.Adapter<AdapterForYou.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull AdapterForYou.ViewHolder viewHolder, final int i) {
-        final FrameLayout cardView = viewHolder.cardView;
+        final WebView cardView = viewHolder.cardView;
         final Context context = cardView.getContext();
-        YouTubePlayerSupportFragment youtubePlayerFragment = new YouTubePlayerSupportFragment();
+
+       /* YouTubePlayerSupportFragment youtubePlayerFragment = new YouTubePlayerSupportFragment();
         youtubePlayerFragment.initialize(DEVELOPER_KEY, this);
         FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_fragment,youtubePlayerFragment);
         fragmentTransaction.commit();
+    */
+        cardView.getSettings().setJavaScriptEnabled(true);
+        cardView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        cardView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        cardView.getSettings().setSupportMultipleWindows(true);
+        cardView.getSettings().setSupportZoom(true);
+        cardView.getSettings().setBuiltInZoomControls(true);
+        cardView.getSettings().setAllowFileAccess(true);
+        cardView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                //setProgressBarIndeterminateVisibility(false);
+                super.onPageFinished(view, url);
+            }
+        });
+       cardView.loadUrl("https://www.youtube.com/watch?v=aircAruvnKk");
+       cardView.setVisibility(View.VISIBLE);
+
     }
     @Override
     public int getItemCount() {
@@ -64,11 +87,11 @@ public class AdapterForYou extends RecyclerView.Adapter<AdapterForYou.ViewHolder
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        FrameLayout cardView;
+        WebView cardView;
 
         public ViewHolder(View view) {
             super(view);
-            cardView = (FrameLayout) view.findViewById(R.id.frame_fragment);
+            cardView = (WebView) view.findViewById(R.id.frame_fragment);
 
         }
     }

@@ -38,14 +38,9 @@ public class MainActivity extends AppCompatActivity  {
              @Override
              public void onClick(View v) {
                  String usr,psd;
-
                  usr = usaername.getText().toString();
                  psd = passwrd.getText().toString();
-
-
                  logMethod(usr,psd);
-
-
              }
          });
 

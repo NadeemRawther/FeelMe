@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 public class MainPage extends Fragment  {
     SharedPreferences sharedPreferences;
+    String userid;
+    ImageView angry,pain,happy,confused,sad,sick;
     ImageView mother,father,sister,brother,uncle,aunty,grandpa,grandma;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     @Override
@@ -39,7 +41,7 @@ public class MainPage extends Fragment  {
         aunty = (ImageView)view.findViewById(R.id.aunty);
         grandpa = (ImageView)view.findViewById(R.id.grandpa);
         grandma = (ImageView)view.findViewById(R.id.grandma);
-        String userid = sharedPreferences.getString("userid","");
+        userid = sharedPreferences.getString("userid","");
         DatabaseReference myRef = database.getReference("users/user/"+userid);
 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
     @Override
@@ -59,88 +61,172 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
     @Override
     public void onCancelled(@NonNull DatabaseError databaseError) {
 
+
+
     }
 });
-
         mother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,80);
+                createEmoji(v,"phonemother");
             }
         });
 
         father.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,45);
+                createEmoji(v,"phonefather");
             }
         });
 
         sister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,78);
+                createEmoji(v,"phonesister");
             }
         });
         brother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,87);
+                createEmoji(v,"phonebrother");
             }
         });
 
         uncle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,45);
+                createEmoji(v,"phoneuncle");
             }
         });
         aunty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,79);
+                createEmoji(v,"phoneaunt");
             }
         });
 
         grandpa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,46);
+                createEmoji(v,"phonegrandfather");
             }
         });
         grandma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEmoji(v,79);
+                createEmoji(v,"phonegrandmother");
             }
         });
         return view ;
     }
-
-
-
-  public void createEmoji(View v,int phoneNo){
+  public void createEmoji(View v, final String relation){
       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
       View mView = View.inflate(getActivity(),R.layout.emoji_layout,null);
       builder.setView(mView);
+
+              angry = (ImageView)mView.findViewById(R.id.angrye);
+              pain = (ImageView)mView.findViewById(R.id.pain);
+              happy = (ImageView)mView.findViewById(R.id.happye);
+              confused = (ImageView)mView.findViewById(R.id.confusede);
+              sad = (ImageView)mView.findViewById(R.id.sade);
+              sick = (ImageView)mView.findViewById(R.id.sick);
+
+             sad.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     send_re("sad",relation);
+                 }
+             });
+
+             angry.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     send_re("angry",relation);
+                 }
+             });
+             pain.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     send_re("pain",relation);
+                 }
+             });
+             happy.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     send_re("happy",relation);
+                 }
+             });
+
+             confused.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     send_re("confused",relation);
+                 }
+             });
+
+             sick.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     send_re("sick",relation);
+
+                 }
+             });
       final AlertDialog alertDialog = builder.create();
       alertDialog.show();
-      String msg="";
-      ImageView angry,pain,happy,confused,sad,sick;
+  }
 
 
-          try {
-              SmsManager smsManager = SmsManager.getDefault();
-              ArrayList<String> messageParts = smsManager.divideMessage(msg);
-              smsManager.sendMultipartTextMessage(String.valueOf(phoneNo), null, messageParts, null, null);
-              Toast.makeText(getContext(), "Message Sent",
-                      Toast.LENGTH_LONG).show();
-          } catch (Exception ex) {
-              Toast.makeText(getContext(),ex.getMessage().toString(),
-                      Toast.LENGTH_LONG).show();
-              ex.printStackTrace();
+  public void send_re(String emot, final String relation){
+
+        String emoti = "";
+
+        switch(emot){
+            case "sad":
+                emoti = "Iam sad";
+            case "happy":
+                emoti = "Iam extremely happy";
+            case "pain":
+                emoti = "I am in pain ";
+            case "angry":
+                emoti = "Iam angry";
+            case "sick":
+                emoti = "Iam sick";
+            case "confused":
+                emoti = "Iam confused";
+
+
+
+
+
+
+      }
+
+final String msg = emoti;
+
+
+
+
+      DatabaseReference myRef7 = database.getReference("users/user/"+userid);
+
+      myRef7.addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+              dataSnapshot.child(relation);
+              try {
+                  SmsManager smsManager = SmsManager.getDefault();
+                  ArrayList<String> messageParts = smsManager.divideMessage(msg);
+                  smsManager.sendMultipartTextMessage(String.valueOf(dataSnapshot.child(relation)), null, messageParts, null, null);
+                  Toast.makeText(getContext(), "Message Sent",
+                          Toast.LENGTH_LONG).show();
+              } catch (Exception ex) {
+                  Toast.makeText(getContext(), ex.getMessage().toString(),
+                          Toast.LENGTH_LONG).show();
+                  ex.printStackTrace();
+              }
           }
-
-
+          @Override
+          public void onCancelled(@NonNull DatabaseError databaseError) {
+          }
+      });
   }
 }
