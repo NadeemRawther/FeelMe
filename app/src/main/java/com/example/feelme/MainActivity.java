@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity  {
 
-    Button login;
+    Button login,signup;
     SharedPreferences sharedPreferences;
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -33,7 +33,15 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         usaername = (EditText)findViewById(R.id.username);
         passwrd = (EditText)findViewById(R.id.passwrd);
-         login = (Button)findViewById(R.id.login);
+        signup = (Button)findViewById(R.id.signup);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,SignUp.class);
+                startActivity(intent);
+            }
+        });
+        login = (Button)findViewById(R.id.login);
          login.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {

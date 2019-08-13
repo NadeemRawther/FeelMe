@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,18 @@ import android.widget.TextView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 public class AdapterForYou extends RecyclerView.Adapter<AdapterForYou.ViewHolder> implements YouTubePlayer.OnInitializedListener  {
     Context context;
     ArrayList<String> arraylist;
     TextView titles,detail,place;
+
     RatingBar ratingBar;
     public static final String DEVELOPER_KEY =  "AIzaSyDXzWPBNo05rtn7442jgMmklYgJxYckpq0";
     public static final String YOUTUBE_VIDEO_CODE = "_oEA18Y8gM0";
@@ -65,14 +73,18 @@ public class AdapterForYou extends RecyclerView.Adapter<AdapterForYou.ViewHolder
                 super.onPageFinished(view, url);
             }
         });
-       cardView.loadUrl("https://www.youtube.com/watch?v=aircAruvnKk");
-       cardView.setVisibility(View.VISIBLE);
+        cardView.loadUrl(arraylist.get(i));
+
+        cardView.setVisibility(View.VISIBLE);
+
+
+
 
     }
     @Override
     public int getItemCount() {
         int len = arraylist.size();
-        return 3 ;
+        return len ;
     }
 
     @Override
