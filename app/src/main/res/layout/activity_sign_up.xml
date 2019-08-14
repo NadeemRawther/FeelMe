@@ -565,7 +565,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline18" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/grandpa_phone"
             android:layout_width="172dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"

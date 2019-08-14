@@ -216,11 +216,9 @@ final String msg = emoti;
                   SmsManager smsManager = SmsManager.getDefault();
                   ArrayList<String> messageParts = smsManager.divideMessage(msg);
                   smsManager.sendMultipartTextMessage(String.valueOf(dataSnapshot.child(relation)), null, messageParts, null, null);
-                  Toast.makeText(getContext(), "Message Sent",
-                          Toast.LENGTH_LONG).show();
+                  Toast.makeText(getContext(), "Message Sent",Toast.LENGTH_LONG).show();
               } catch (Exception ex) {
-                  Toast.makeText(getContext(), ex.getMessage().toString(),
-                          Toast.LENGTH_LONG).show();
+                  Toast.makeText(getContext(), ex.getMessage().toString(),Toast.LENGTH_LONG).show();
                   ex.printStackTrace();
               }
           }
