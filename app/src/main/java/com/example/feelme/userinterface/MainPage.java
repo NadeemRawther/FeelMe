@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,22 +42,23 @@ public class MainPage extends Fragment  {
         aunty = (ImageView)view.findViewById(R.id.aunty);
         grandpa = (ImageView)view.findViewById(R.id.grandpa);
         grandma = (ImageView)view.findViewById(R.id.grandma);
-        userid = sharedPreferences.getString("userid","");
+        userid = sharedPreferences.getString("userid","Nor");
         DatabaseReference myRef = database.getReference("users/user/"+userid);
+        Log.e("PHonenumbers",userid.toString());
 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         String moth, fath, sist, grandfa, grandmo, unc, aun;
-        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-        Glide.with( getActivity() ).load( dataSnapshot1.child("father").getValue().toString()).into(father);
-        Glide.with( getActivity() ).load(dataSnapshot1.child("mother").getValue().toString()).into(mother);
-        Glide.with( getActivity() ).load( dataSnapshot1.child("uncle").getValue().toString()).into(uncle);
-        Glide.with( getActivity() ).load( dataSnapshot1.child("aunt").getValue().toString()).into(aunty);
-        Glide.with( getActivity() ).load( dataSnapshot1.child("grandfather").getValue().toString()).into(grandpa);
-        Glide.with( getActivity() ).load( dataSnapshot1.child("grandmother").getValue().toString()).into(grandma);
-        Glide.with( getActivity() ).load( dataSnapshot1.child("brother").getValue().toString()).into(brother);
-        Glide.with( getActivity() ).load( dataSnapshot1.child("sister").getValue().toString()).into(sister);
-        }
+
+        Glide.with( getActivity() ).load( dataSnapshot.child("father").getValue().toString()).into(father);
+        Glide.with( getActivity() ).load(dataSnapshot.child("mother").getValue().toString()).into(mother);
+        Glide.with( getActivity() ).load( dataSnapshot.child("uncle").getValue().toString()).into(uncle);
+        Glide.with( getActivity() ).load( dataSnapshot.child("aunt").getValue().toString()).into(aunty);
+        Glide.with( getActivity() ).load( dataSnapshot.child("grandfather").getValue().toString()).into(grandpa);
+        Glide.with( getActivity() ).load( dataSnapshot.child("grandmother").getValue().toString()).into(grandma);
+        Glide.with( getActivity() ).load( dataSnapshot.child("brother").getValue().toString()).into(brother);
+        Glide.with( getActivity() ).load( dataSnapshot.child("sister").getValue().toString()).into(sister);
+
     }
     @Override
     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -183,17 +185,22 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
         switch(emot){
             case "sad":
                 emoti = "Iam sad";
+                break;
             case "happy":
                 emoti = "Iam extremely happy";
+                break;
             case "pain":
                 emoti = "I am in pain ";
+                break;
             case "angry":
                 emoti = "Iam angry";
+                break;
             case "sick":
                 emoti = "Iam sick";
+                break;
             case "confused":
                 emoti = "Iam confused";
-
+                break;
 
 
 
@@ -211,12 +218,18 @@ final String msg = emoti;
       myRef7.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              dataSnapshot.child(relation);
+
               try {
+                  String phon = "+91"+dataSnapshot.child(relation).getValue().toString();
+
+
                   SmsManager smsManager = SmsManager.getDefault();
-                  ArrayList<String> messageParts = smsManager.divideMessage(msg);
-                  smsManager.sendMultipartTextMessage(String.valueOf(dataSnapshot.child(relation)), null, messageParts, null, null);
+                 // ArrayList<String> messageParts = smsManager.divideMessage(msg);
+                  smsManager.sendTextMessage(phon, null,msg , null, null);
                   Toast.makeText(getContext(), "Message Sent",Toast.LENGTH_LONG).show();
+
+
+
               } catch (Exception ex) {
                   Toast.makeText(getContext(), ex.getMessage().toString(),Toast.LENGTH_LONG).show();
                   ex.printStackTrace();

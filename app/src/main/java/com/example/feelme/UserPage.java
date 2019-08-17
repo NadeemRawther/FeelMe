@@ -24,6 +24,7 @@ public class UserPage extends AppCompatActivity implements ActionBar.TabListener
     VideoFrag videoFrag;
     public static final String DEVELOPER_KEY =  "AIzaSyDXzWPBNo05rtn7442jgMmklYgJxYckpq0";
     public static final String YOUTUBE_VIDEO_CODE = "_oEA18Y8gM0";
+
   MainPage mainPage;
 
     private YouTubePlayer youTubePlayer;

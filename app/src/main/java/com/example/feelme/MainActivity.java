@@ -68,6 +68,8 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                        sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
                        editor = sharedPreferences.edit();
                        editor.putString("userid",usar);
+                       editor.putString("passwor",dataSnapshot1.child("password").getValue().toString());
+                       editor.apply();
                        Intent intent = new Intent(MainActivity.this,UserPage.class);
                        startActivity(intent);
                    }
