@@ -28,6 +28,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class SignUp extends AppCompatActivity {
 Button fatherimg_btn,motherimg_btn,grandpaimg_btn,grandmaimg_btn,uncleimg_btn,auntimg_btn,sisterimg_btn,brotherimg_btn,submit;
@@ -35,7 +37,8 @@ ImageView fatherimg ,motherimg ,grandpaimg ,grandmaimg,uncleimg,auntimg,sisterim
 EditText name, userid , password , fath_phone ,mother_phone,grandpa_phone,grandma_phone,uncle_phone,aunt_phone,sister_phone,brother_phone;
 Bitmap fatherimgb ,motherimgb ,grandpaimgb ,grandmaimgb,uncleimgb,auntimgb,sisterimgb,brotherimgb;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    ArrayList<Bitmap> arrayList = new ArrayList<>();
+ArrayList<String> stringArrayList = new ArrayList<>();
     private final int PICK_IMAGE_FATHER = 1;
     private final int PICK_IMAGE_MOTHER = 2;
     private final int PICK_IMAGE_GRANDFATHER = 3;
@@ -53,13 +56,12 @@ Bitmap fatherimgb ,motherimgb ,grandpaimgb ,grandmaimgb,uncleimgb,auntimgb,siste
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
        initialize_button();
 
     }
 
 
-    public void uploadimg(final String userid, final String password, final DatabaseReference myRef, final String name, final String phone, final String place , final String charge, final String details, Bitmap img){
+    public void uploadimg(final String userid, Bitmap img){
         final StorageReference imagesRef = storageRef.child(userid+".jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -102,7 +104,7 @@ Bitmap fatherimgb ,motherimgb ,grandpaimgb ,grandmaimgb,uncleimgb,auntimgb,siste
 
     public void initialize_button(){
         submit = (Button)findViewById(R.id.submitforuser);
-        name = (EditText)findViewById(R.id.nameuser) ;
+        name = (EditText)findViewById(R.id.nameuser);
         userid = (EditText)findViewById(R.id.useriduser);
         password = (EditText)findViewById(R.id.passuser);
         fatherimg_btn = (Button)findViewById(R.id.father_img_btn);
@@ -241,6 +243,14 @@ Bitmap fatherimgb ,motherimgb ,grandpaimgb ,grandmaimgb,uncleimgb,auntimgb,siste
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.hasChild(usersid)){
+
+                        }
+                        else{
+                            Bitmap[] bitmaps = {fatherimgb,motherimgb,grandpaimgb,grandmaimgb,uncleimgb,auntimgb,sisterimgb,brotherimgb};
+                           for (Bitmap bitmap:bitmaps){
+                            arrayList.add(bitmap);
+
+                           }
 
                         }
                     }
