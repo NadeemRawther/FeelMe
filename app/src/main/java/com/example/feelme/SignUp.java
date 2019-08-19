@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,8 +38,8 @@ ImageView fatherimg ,motherimg ,grandpaimg ,grandmaimg,uncleimg,auntimg,sisterim
 EditText name, userid , password , fath_phone ,mother_phone,grandpa_phone,grandma_phone,uncle_phone,aunt_phone,sister_phone,brother_phone;
 Bitmap fatherimgb ,motherimgb ,grandpaimgb ,grandmaimgb,uncleimgb,auntimgb,sisterimgb,brotherimgb;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    ArrayList<Bitmap> arrayList = new ArrayList<>();
-ArrayList<String> stringArrayList = new ArrayList<>();
+    ArrayList<Imageuploading> arrayList = new ArrayList<>();
+ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
     private final int PICK_IMAGE_FATHER = 1;
     private final int PICK_IMAGE_MOTHER = 2;
     private final int PICK_IMAGE_GRANDFATHER = 3;
@@ -61,8 +62,8 @@ ArrayList<String> stringArrayList = new ArrayList<>();
     }
 
 
-    public void uploadimg(final String userid, Bitmap img){
-        final StorageReference imagesRef = storageRef.child(userid+".jpg");
+    public void uploadimg(final String userid, Bitmap img, final String name){
+        final StorageReference imagesRef = storageRef.child(userid+name+".jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -82,7 +83,9 @@ ArrayList<String> stringArrayList = new ArrayList<>();
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     Log.e("MASTER",downloadUri.toString());
-                   // LabourModel labourModel = new LabourModel(password,name,details,place,phone,charge,downloadUri.toString(),5.0);
+                    ImageUploa imageUploa = new ImageUploa(downloadUri.toString(),name);
+                    stringArrayList.add(imageUploa);
+                   //LabourModel labourModel = new LabourModel(password,name,details,place,phone,charge,downloadUri.toString(),5.0);
                     //myRef.child(userid).setValue(labourModel);
                     //Intent intent = new Intent(Signupforuser.this,MainActivity.class);
                     //intent.putExtra("finish", true);
@@ -237,20 +240,35 @@ ArrayList<String> stringArrayList = new ArrayList<>();
             @Override
             public void onClick(View v) {
              //UserDetails userDetails = new UserDetails();
-
+                Log.e("Uploadedimages", "where am i");
                 DatabaseReference myRef = database.getReference("users/user");
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.hasChild(usersid)){
+                        Log.e("userid", usersid);
+                        if(!dataSnapshot.hasChild(usersid)){
 
+                            Toast.makeText(SignUp.this,"MasterNadeem",Toast.LENGTH_LONG).show();
+                            return;
                         }
                         else{
                             Bitmap[] bitmaps = {fatherimgb,motherimgb,grandpaimgb,grandmaimgb,uncleimgb,auntimgb,sisterimgb,brotherimgb};
-                           for (Bitmap bitmap:bitmaps){
-                            arrayList.add(bitmap);
+                           String[] names = {"father","mother","grandfather","grandmother","uncle","aunt","sister","brother"};
+                            int i = 0;
+                            for (Bitmap bitmap:bitmaps){
+                                Imageuploading imageuploading = new Imageuploading(names[i],bitmap);
 
-                           }
+                                arrayList.add(imageuploading);
+                                Log.e("Uploadedimages", arrayList.get(i).getName().toString());
+                                Log.e("Uploadedimages", arrayList.get(i).getUrl().toString());
+                           i++;
+                            }
+                              for(int j = 0 ; j<arrayList.size();j++) {
+                                 // uploadimg(usersid, bitmaps[j], names[j]);
+                                  // Log.e("Uploadedimages", stringArrayList.get(j).getUrl().toString());
+                              }
+
+
 
                         }
                     }
@@ -270,7 +288,6 @@ ArrayList<String> stringArrayList = new ArrayList<>();
 
 
 
-    public void adduser(){ }
 
 
 
