@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     Button login,signup;
     SharedPreferences sharedPreferences;
@@ -54,7 +54,14 @@ public class MainActivity extends AppCompatActivity  {
 
 
     }
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
+        String us = sharedPreferences.getString("userid", "");
+        String ps = sharedPreferences.getString("passwor", "");
+        logMethod(us, ps);
+    }
     public void logMethod(final String usar , final String psd){
 
 

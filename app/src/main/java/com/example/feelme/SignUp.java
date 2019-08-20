@@ -1,5 +1,6 @@
 package com.example.feelme;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -40,6 +41,7 @@ Bitmap fatherimgb ,motherimgb ,grandpaimgb ,grandmaimgb,uncleimgb,auntimgb,siste
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     ArrayList<Imageuploading> arrayList = new ArrayList<>();
 ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
+
     private final int PICK_IMAGE_FATHER = 1;
     private final int PICK_IMAGE_MOTHER = 2;
     private final int PICK_IMAGE_GRANDFATHER = 3;
@@ -51,7 +53,7 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
     private Uri filePath;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -85,6 +87,7 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
                     Log.e("MASTER",downloadUri.toString());
                     ImageUploa imageUploa = new ImageUploa(downloadUri.toString(),name);
                     stringArrayList.add(imageUploa);
+
                    //LabourModel labourModel = new LabourModel(password,name,details,place,phone,charge,downloadUri.toString(),5.0);
                     //myRef.child(userid).setValue(labourModel);
                     //Intent intent = new Intent(Signupforuser.this,MainActivity.class);
@@ -93,6 +96,9 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
                       //      Intent.FLAG_ACTIVITY_CLEAR_TASK |
                         //    Intent.FLAG_ACTIVITY_NEW_TASK);
                     //startActivity(intent);
+                    if(stringArrayList.size() == arrayList.size()){
+                      progressDialog.dismiss();
+                    }
                 }
                 else {
                     // Handle failures
@@ -239,21 +245,24 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog = new ProgressDialog(SignUp.this);
+                progressDialog.setMessage("please Wait while loading");
+                progressDialog.show();
              //UserDetails userDetails = new UserDetails();
                 Log.e("Uploadedimages", "where am i");
                 DatabaseReference myRef = database.getReference("users/user");
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Log.e("userid", usersid);
-                        if(!dataSnapshot.hasChild(usersid)){
+                        Log.e("userid", userid.getText().toString());
+                        if(dataSnapshot.hasChild(userid.getText().toString())){
 
                             Toast.makeText(SignUp.this,"MasterNadeem",Toast.LENGTH_LONG).show();
                             return;
                         }
                         else{
                             Bitmap[] bitmaps = {fatherimgb,motherimgb,grandpaimgb,grandmaimgb,uncleimgb,auntimgb,sisterimgb,brotherimgb};
-                           String[] names = {"father","mother","grandfather","grandmother","uncle","aunt","sister","brother"};
+                            String[] names   = {"father","mother","grandfather","grandmother","uncle","aunt","sister","brother"};
                             int i = 0;
                             for (Bitmap bitmap:bitmaps){
                                 Imageuploading imageuploading = new Imageuploading(names[i],bitmap);
@@ -264,13 +273,10 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
                            i++;
                             }
                               for(int j = 0 ; j<arrayList.size();j++) {
-                                 // uploadimg(usersid, bitmaps[j], names[j]);
-                                  // Log.e("Uploadedimages", stringArrayList.get(j).getUrl().toString());
+                                 uploadimg(userid.getText().toString(), bitmaps[j], names[j]);
+
                               }
-
-
-
-                        }
+                 }
                     }
 
                     @Override

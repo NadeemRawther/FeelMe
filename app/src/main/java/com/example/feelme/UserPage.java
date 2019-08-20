@@ -18,7 +18,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 
-public class UserPage extends AppCompatActivity implements ActionBar.TabListener {
+public class UserPage extends BaseActivity implements ActionBar.TabListener {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     VideoFrag videoFrag;

@@ -50,14 +50,14 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         String moth, fath, sist, grandfa, grandmo, unc, aun;
 
-        Glide.with( getActivity() ).load( dataSnapshot.child("father").getValue().toString()).into(father);
-        Glide.with( getActivity() ).load(dataSnapshot.child("mother").getValue().toString()).into(mother);
-        Glide.with( getActivity() ).load( dataSnapshot.child("uncle").getValue().toString()).into(uncle);
-        Glide.with( getActivity() ).load( dataSnapshot.child("aunt").getValue().toString()).into(aunty);
-        Glide.with( getActivity() ).load( dataSnapshot.child("grandfather").getValue().toString()).into(grandpa);
-        Glide.with( getActivity() ).load( dataSnapshot.child("grandmother").getValue().toString()).into(grandma);
-        Glide.with( getActivity() ).load( dataSnapshot.child("brother").getValue().toString()).into(brother);
-        Glide.with( getActivity() ).load( dataSnapshot.child("sister").getValue().toString()).into(sister);
+        Glide.with( getActivity()).load( dataSnapshot.child("father").getValue().toString()).into(father);
+        Glide.with( getActivity()).load(dataSnapshot.child("mother").getValue().toString()).into(mother);
+        Glide.with( getActivity()).load( dataSnapshot.child("uncle").getValue().toString()).into(uncle);
+        Glide.with( getActivity()).load( dataSnapshot.child("aunt").getValue().toString()).into(aunty);
+        Glide.with( getActivity()).load( dataSnapshot.child("grandfather").getValue().toString()).into(grandpa);
+        Glide.with( getActivity()).load( dataSnapshot.child("grandmother").getValue().toString()).into(grandma);
+        Glide.with( getActivity()).load( dataSnapshot.child("brother").getValue().toString()).into(brother);
+        Glide.with( getActivity()).load( dataSnapshot.child("sister").getValue().toString()).into(sister);
 
     }
     @Override
@@ -170,7 +170,6 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                  @Override
                  public void onClick(View v) {
                      send_re("sick",relation);
-
                  }
              });
       final AlertDialog alertDialog = builder.create();
