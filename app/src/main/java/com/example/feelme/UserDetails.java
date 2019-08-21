@@ -1,10 +1,13 @@
 package com.example.feelme;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class UserDetails {
 
-    String phonefather,phoneaunt,phoneuncle,phonegrandfather,phonegrandmother,phonebrother,phonesister,phonemother,father,mother,grandfather,grandmother,uncle,aunt,sister,brother,name,password;
+    String phonefather,phoneaunt,phoneuncle,phonegrandfather,phonegrandmother,phonebrother,phonesister,phonemother,name,password;
 
-    public UserDetails(String phonefather, String phoneaunt, String phoneuncle, String phonegrandfather, String phonegrandmother, String phonebrother, String phonesister, String phonemother, String father, String mother, String grandfather, String grandmother, String uncle, String aunt, String sister, String brother, String name, String password) {
+    public UserDetails(String phonefather, String phoneaunt, String phoneuncle, String phonegrandfather, String phonegrandmother, String phonebrother, String phonesister, String phonemother, String name, String password) {
         this.phonefather = phonefather;
         this.phoneaunt = phoneaunt;
         this.phoneuncle = phoneuncle;
@@ -13,14 +16,6 @@ public class UserDetails {
         this.phonebrother = phonebrother;
         this.phonesister = phonesister;
         this.phonemother = phonemother;
-        this.father = father;
-        this.mother = mother;
-        this.grandfather = grandfather;
-        this.grandmother = grandmother;
-        this.uncle = uncle;
-        this.aunt = aunt;
-        this.sister = sister;
-        this.brother = brother;
         this.name = name;
         this.password = password;
     }
@@ -57,37 +52,7 @@ public class UserDetails {
         return phonemother;
     }
 
-    public String getFather() {
-        return father;
-    }
 
-    public String getMother() {
-        return mother;
-    }
-
-    public String getGrandfather() {
-        return grandfather;
-    }
-
-    public String getGrandmother() {
-        return grandmother;
-    }
-
-    public String getUncle() {
-        return uncle;
-    }
-
-    public String getAunt() {
-        return aunt;
-    }
-
-    public String getSister() {
-        return sister;
-    }
-
-    public String getBrother() {
-        return brother;
-    }
 
     public String getName() {
         return name;

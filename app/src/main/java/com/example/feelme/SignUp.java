@@ -54,6 +54,7 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     ProgressDialog progressDialog;
+    DatabaseReference myRef = database.getReference("users/user");
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -64,12 +65,24 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
     }
 
 
-    public void uploadimg(final String userid, Bitmap img, final String name){
-        final StorageReference imagesRef = storageRef.child(userid+name+".jpg");
+    public void uploadimg(final String useridupload, Bitmap img, final String names){
+        final StorageReference imagesRef = storageRef.child(useridupload+names+".jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
+        final String phonefather,phoneaunt,phoneuncle,phonegrandfather,phonegrandmother,phonebrother,phonesister,phonemother,usersid,passwords,namesd;
         UploadTask uploadTask = imagesRef.putBytes(data);
+        phonefather = fath_phone.getText().toString();
+        phoneaunt = aunt_phone.getText().toString();
+        phonebrother = brother_phone.getText().toString();
+        phonesister = sister_phone.getText().toString();
+        phonegrandfather = grandpa_phone.getText().toString();
+        phonegrandmother = grandma_phone.getText().toString();
+        phonemother = mother_phone.getText().toString();
+        phoneuncle = uncle_phone.getText().toString();
+        usersid = userid.getText().toString();
+        passwords = password.getText().toString();
+        namesd = name.getText().toString();
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -85,7 +98,7 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     Log.e("MASTER",downloadUri.toString());
-                    ImageUploa imageUploa = new ImageUploa(downloadUri.toString(),name);
+                    ImageUploa imageUploa = new ImageUploa(downloadUri.toString(),names);
                     stringArrayList.add(imageUploa);
 
                    //LabourModel labourModel = new LabourModel(password,name,details,place,phone,charge,downloadUri.toString(),5.0);
@@ -97,7 +110,10 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
                         //    Intent.FLAG_ACTIVITY_NEW_TASK);
                     //startActivity(intent);
                     if(stringArrayList.size() == arrayList.size()){
-                      progressDialog.dismiss();
+
+                        Log.e("MASTERNadeem",stringArrayList.get(3).getName().toString());
+                        UserDetails userDetails = new UserDetails(phonefather,phoneaunt,phoneuncle,phonegrandfather,phonegrandmother,phonebrother,phonesister,phonemother,namesd,passwords);
+                        add_User(useridupload,stringArrayList,userDetails);
                     }
                 }
                 else {
@@ -108,9 +124,18 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
         });
     }
 
+public void add_User(String userd,ArrayList<ImageUploa> arrayList,UserDetails userDetails){
+
+UserRegister userRegister = new UserRegister(userDetails.getPhonefather(),userDetails.getPhoneaunt(),userDetails.getPhoneuncle(),userDetails.getPhonegrandfather(),userDetails.getPhonegrandmother(),userDetails.getPhonebrother(),userDetails.getPhonesister(),userDetails.getPhonemother(),userDetails.getName(),userDetails.getPassword(),arrayList.get(0).getUrl(),arrayList.get(1).getUrl(),arrayList.get(2).getUrl(),arrayList.get(3).getUrl(),arrayList.get(4).getUrl(),arrayList.get(5).getUrl(),arrayList.get(6).getUrl(),arrayList.get(7).getUrl());
+
+        myRef.child(userd).setValue(userRegister);
+
+    progressDialog.dismiss();
 
 
 
+
+}
     public void initialize_button(){
         submit = (Button)findViewById(R.id.submitforuser);
         name = (EditText)findViewById(R.id.nameuser);
@@ -289,14 +314,6 @@ ArrayList<ImageUploa> stringArrayList = new ArrayList<>();
             }
         });
     }
-
-
-
-
-
-
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult( requestCode, resultCode, data );
