@@ -129,8 +129,14 @@ public void add_User(String userd,ArrayList<ImageUploa> arrayList,UserDetails us
 UserRegister userRegister = new UserRegister(userDetails.getPhonefather(),userDetails.getPhoneaunt(),userDetails.getPhoneuncle(),userDetails.getPhonegrandfather(),userDetails.getPhonegrandmother(),userDetails.getPhonebrother(),userDetails.getPhonesister(),userDetails.getPhonemother(),userDetails.getName(),userDetails.getPassword(),arrayList.get(0).getUrl(),arrayList.get(1).getUrl(),arrayList.get(2).getUrl(),arrayList.get(3).getUrl(),arrayList.get(4).getUrl(),arrayList.get(5).getUrl(),arrayList.get(6).getUrl(),arrayList.get(7).getUrl());
 
         myRef.child(userd).setValue(userRegister);
-
     progressDialog.dismiss();
+    Intent intent = new Intent(SignUp.this,MainActivity.class);
+    intent.putExtra("finish", true);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+            Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+
 
 
 

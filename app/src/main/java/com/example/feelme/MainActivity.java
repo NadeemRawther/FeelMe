@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,35 +62,82 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
         String us = sharedPreferences.getString("userid", "");
         String ps = sharedPreferences.getString("passwor", "");
-        logMethod(us, ps);
+        logMethod2(us, ps);
     }
     public void logMethod(final String usar , final String psd){
 
 
+if(usar.isEmpty()|| psd.isEmpty()) {
+    Toast.makeText(MainActivity.this, "Userid or Password  is empty", Toast.LENGTH_LONG).show();
+    return;
 
-myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-    @Override
-    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-           if (dataSnapshot.hasChild(usar)){
-               for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                   if(dataSnapshot1.child("password").getValue().toString().equals(psd)){
-                       sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
-                       editor = sharedPreferences.edit();
-                       editor.putString("userid",usar);
-                       editor.putString("passwor",dataSnapshot1.child("password").getValue().toString());
-                       editor.apply();
-                       Intent intent = new Intent(MainActivity.this,UserPage.class);
-                       startActivity(intent);
-                   }
-               }
-               }
+}
+    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if (dataSnapshot.hasChild(usar)) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    if (dataSnapshot1.child("password").getValue().toString().equals(psd)) {
+                        sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
+                        editor = sharedPreferences.edit();
+                        editor.putString("userid", usar);
+                        editor.putString("passwor", dataSnapshot1.child("password").getValue().toString());
+                        editor.apply();
+
+                        Intent intent = new Intent(MainActivity.this, UserPage.class);
+                        startActivity(intent);
+                        return;
+                    }
+
+                }
+                Toast.makeText(MainActivity.this, "Password incorrect", Toast.LENGTH_LONG).show();
+
+
+            } else {
+
+                Toast.makeText(MainActivity.this, "Userid or Password incorrect", Toast.LENGTH_LONG).show();
+return;
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
+
+
+
     }
+    public void logMethod2(final String usar , final String psd){
 
-    @Override
-    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-    }
-});
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(usar)){
+                    for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                        if(dataSnapshot1.child("password").getValue().toString().equals(psd)){
+                            sharedPreferences = getApplicationContext().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
+                            editor = sharedPreferences.edit();
+                            editor.putString("userid",usar);
+                            editor.putString("passwor",dataSnapshot1.child("password").getValue().toString());
+                            editor.apply();
+
+                            Intent intent = new Intent(MainActivity.this,UserPage.class);
+                            startActivity(intent);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 

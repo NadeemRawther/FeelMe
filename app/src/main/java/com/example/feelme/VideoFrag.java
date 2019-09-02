@@ -52,8 +52,8 @@ public class VideoFrag extends Fragment {
                   Log.e("RadioVideos",dataSnapshot1.getValue().toString());
                   arrayList.add(dataSnapshot1.getValue().toString());
               }
-               //AdapterForYou reviewAdapter = new AdapterForYou(getActivity(),arrayList);
-              //labourcycle.setAdapter(reviewAdapter);
+               AdapterForYou reviewAdapter = new AdapterForYou(getActivity(),arrayList);
+              labourcycle.setAdapter(reviewAdapter);
 
             }
 
